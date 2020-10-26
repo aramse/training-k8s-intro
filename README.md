@@ -51,7 +51,7 @@ In a separate window, run another copy of the container, and this time limit its
 docker run -p 8002:80 --cpus 0.25 my-joker-app:2
 ```
 
-Open a browser to http://localhost:8002/load to exercise CPU on the container. Hold Command (for Mac, Control for PC) + R to continuously generate load, and observe how CPU usage changes on the `docker stats` output, but remains limited to the CPU specified in the above run command. Then do the same for one of the other containers, e.g. http://localhost:8001/load.
+Open a browser to http://localhost:8002/load to exercise CPU on the container. Refresh the page a few times to generate more load, and observe how CPU usage changes on the `docker stats` output, but remains limited to the CPU specified in the above run command. Then do the same for one of the other containers, e.g. http://localhost:8001/load.
 
 ### View container logs
 Run the following to view container logs (stdout/stderr):
