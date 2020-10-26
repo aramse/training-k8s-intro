@@ -45,6 +45,14 @@ Run the following to view resource usage of running containers:
 docker stats
 ```
 
+### Generate some load
+In a separate window, run another copy of the container, and this time limit its CPU:
+```sh
+docker run -p 8002:80 --cpus 0.25 my-joker-app:2
+```
+
+Open a browser to http://localhost:8002/load to exercise CPU on the container. Hold Command (for Mac, Control for PC) + R to continuously generate load, and observe how CPU usage changes on the `docker stats` output, but remains limited to the CPU specified in the above run command. Then do the same for one of the other containers, e.g. http://localhost:8001/load.
+
 ### View container logs
 Run the following to view container logs (stdout/stderr):
 ```sh
@@ -92,11 +100,11 @@ kubectl config get-contexts   # ensure you are pointing to the right cluster
 ```
 
 ### Deploy to GKE
-Edit the `k8s.yaml` file, replacing __<MY_NAME>__ with the name you chose earlier.
+Edit the `k8s/deploy.yaml` file, replacing __<MY_NAME>__ with the name you chose earlier.
 
 Deploy the joker application to Kubernetes:
 ```sh
-kubectl apply -f k8s.yaml
+kubectl apply -f k8s/deploy.yaml
 ```
 View the `Deployment`, `Service`, and resulting `Pod` resources deployed for your joker app:
 ```sh
@@ -119,9 +127,9 @@ Update the `serve.py` file with a different return message in the `hello` reques
 
 Build and push the container again (see previous section for commands), but tag it `1.1` instead of `1.0`.
 
-Update the `k8s.yaml` file with the new `1.1` tag, and deploy it:
+Update the `deploy/k8s.yaml` file with the new `1.1` tag, and deploy it:
 ```sh
-kubectl apply -f k8s.yaml
+kubectl apply -f deploy/k8s.yaml
 ```
 Return to the window that's continuously requesting the `/hello` endpoint and observe the responses change as the pods update.
 
@@ -130,9 +138,9 @@ Cause the readiness probe to fail by editing in the handler for the readiness pr
 
 Build and push the container again (see previous section for commands), but tag it `1.2`.
 
-Update the `k8s.yaml` file with the new `1.2` tag, and deploy it:
+Update the `deploy/k8s.yaml` file with the new `1.2` tag, and deploy it:
 ```sh
-kubectl apply -f k8s.yaml
+kubectl apply -f deploy/k8s.yaml
 ```
 Get the pods again:
 ```sh
@@ -178,10 +186,29 @@ It is also configured to use the same DNS server:
 curl joker-<MY_NAME>
 ```
 
+### Autoscaling
+Edit the `k8s/autoscale.yaml` file, replacing __<MY_NAME>__ with the name you chose earlier. Apply it with:
+```sh
+kubectl apply -f k8s/autoscale.yaml
+```
+Observe the CPU usage and number of replicas of the joker deployment:
+```sh
+while true; do kubectl get hpa; sleep 2; clear; done
+```
+Generate load on the joker deployment:
+```sh
+docker run -it centos -- bash
+yum install -y httpd-tools
+while true; do ab -n 1000 -c 10 -s 999 http://<EXTERNAL-IP>/load; sleep 5; done
+```
+Observe the spike in CPU utilization, followed by an increase in the number of replicas of the joker deployment.
+
+Exit the load testing command with 'ctrl + c' a couple of times successively.
+
 ### Cleanup
 Delete the resources you created with the following:
 ```sh
-kubectl delete -f k8s.yaml
+kubectl delete -f k8s/
 ```
 Confirm they have been (are being) terminated:
 ```sh

@@ -45,6 +45,16 @@ class goodbye:
     print(msg)
     return msg
 
+class load:
+  def GET(self):
+    params = web.input(t=10000000)
+    for x in range(int(params.t)):
+      x*x
+    return json.dumps({
+      'msg': 'load completed',
+      'date': str(datetime.datetime.now())
+    })
+
 if __name__ == '__main__':
 
   JOKES_LIST = []
@@ -57,6 +67,7 @@ if __name__ == '__main__':
     '/joke', 'joke',
     '/goodbye', 'goodbye',
     '/health', 'health',
+    '/load', 'load',
   )
   app = web.application(urls, globals())
 
