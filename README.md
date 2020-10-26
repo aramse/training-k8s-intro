@@ -127,9 +127,9 @@ Update the `serve.py` file with a different return message in the `hello` reques
 
 Build and push the container again (see previous section for commands), but tag it `1.1` instead of `1.0`.
 
-Update the `deploy/k8s.yaml` file with the new `1.1` tag, and deploy it:
+Update the `k8s/deploy.yaml` file with the new `1.1` tag, and deploy it:
 ```sh
-kubectl apply -f deploy/k8s.yaml
+kubectl apply -f k8s/deploy.yaml
 ```
 Return to the window that's continuously requesting the `/hello` endpoint and observe the responses change as the pods update.
 
@@ -138,9 +138,9 @@ Cause the readiness probe to fail by editing in the handler for the readiness pr
 
 Build and push the container again (see previous section for commands), but tag it `1.2`.
 
-Update the `deploy/k8s.yaml` file with the new `1.2` tag, and deploy it:
+Update the `k8s/deploy.yaml` file with the new `1.2` tag, and deploy it:
 ```sh
-kubectl apply -f deploy/k8s.yaml
+kubectl apply -f k8s/deploy.yaml
 ```
 Get the pods again:
 ```sh
@@ -186,7 +186,7 @@ It is also configured to use the same DNS server:
 curl joker-<MY_NAME>
 ```
 
-### Autoscaling
+### Autoscale
 Edit the `k8s/autoscale.yaml` file, replacing __<MY_NAME>__ with the name you chose earlier. Apply it with:
 ```sh
 kubectl apply -f k8s/autoscale.yaml
@@ -203,7 +203,7 @@ while true; do ab -n 1000 -c 10 -s 999 http://<EXTERNAL-IP>/load; sleep 5; done
 ```
 Observe the spike in CPU utilization, followed by an increase in the number of replicas of the joker deployment.
 
-Exit the load testing command with 'ctrl + c' a couple of times successively.
+Exit the load testing command with 'Ctrl + c' a couple of times successively.
 
 ### Cleanup
 Delete the resources you created with the following:
@@ -215,6 +215,7 @@ Confirm they have been (are being) terminated:
 kubectl get deployments
 kubectl get pods
 kubectl get services
+kubectl get hpa
 ```
 
 Optionally, follow the instructions in this [link](https://stackoverflow.com/questions/36344371/completely-uninstall-google-cloud-sdk-mac) to uninstall `gcloud`.
