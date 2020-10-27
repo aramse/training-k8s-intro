@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: joker
-        image: gcr.io/aramse-training/<MY_NAME>-joker-app:1.0
+        image: gcr.io/aramse-training/<MY_NAME>/joker-app:1.0
         resources:
           requests:
             cpu: 0.1
