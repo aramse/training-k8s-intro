@@ -24,7 +24,7 @@ Run the joker container:
 ```sh
 docker run -p 8000:80 my-joker-app
 ```
-Open http://localhost:8000 in your web browser.
+Open http://localhost:8000 in your web browser, also request the `/joke` endpoint
 
 ### Build and run another container
 In a separate window, make a simple change to the `hello` request handler in `serve.py`, build, and run another container:
@@ -32,6 +32,7 @@ In a separate window, make a simple change to the `hello` request handler in `se
 docker build -t my-joker-app:2 .
 docker run -p 8001:80 my-joker-app:2
 ```
+Open http://localhost:8001 in your web browser
 
 ### View info on running containers
 In a separate window, run the following to inspect the properties of running containers:
