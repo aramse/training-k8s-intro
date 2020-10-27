@@ -90,8 +90,8 @@ gcloud components install kubectl
 ### Push the container image to GCR
 Push the joker container image to GCR, replacing __<MY_NAME>__ with any value you'd like (while trying to keep it unique among participants in the training).
 ```sh
-docker tag my-joker-app gcr.io/aramse-training/<MY_NAME>-joker-app:1.0
-docker push gcr.io/aramse-training/<MY_NAME>-joker-app:1.0
+docker tag my-joker-app gcr.io/aramse-training/<MY_NAME>/joker-app:1.0
+docker push gcr.io/aramse-training/<MY_NAME>/joker-app:1.0
 ```
 
 ### Configure access to GKE
