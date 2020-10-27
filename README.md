@@ -194,11 +194,11 @@ kubectl apply -f k8s/autoscale.yaml
 ```
 Observe the CPU usage and number of replicas of the joker deployment:
 ```sh
-while true; do kubectl get hpa; sleep 2; clear; done
+while true; do kubectl get hpa; sleep 3; clear; done
 ```
 Generate load on the joker deployment:
 ```sh
-docker run -it centos -- bash
+docker run -it centos bash
 yum install -y httpd-tools
 while true; do ab -n 1000 -c 10 http://<EXTERNAL-IP>/load; sleep 5; done
 ```
