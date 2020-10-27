@@ -199,7 +199,7 @@ Generate load on the joker deployment:
 ```sh
 docker run -it centos -- bash
 yum install -y httpd-tools
-while true; do ab -n 1000 -c 10 -s 999 http://<EXTERNAL-IP>/load; sleep 5; done
+while true; do ab -n 1000 -c 10 http://<EXTERNAL-IP>/load; sleep 5; done
 ```
 Observe the spike in CPU utilization, followed by an increase in the number of replicas of the joker deployment.
 
